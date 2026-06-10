@@ -24,4 +24,5 @@ export const Footer = styled.div`
 			text-decoration: underline;
 		}
 	} /* Исправлена закрывающая скобка */
+    
 `;
