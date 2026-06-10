@@ -231,7 +231,7 @@ export default function OilDipstickLookup() {
                     type="text"
                     inputMode="text"
                     autoCapitalize="characters"
-                    placeholder="Введите код двигателя (например, CAEB)..."
+                    placeholder="Введите код двигателя (CAEB)..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     style={styles.searchInput}
