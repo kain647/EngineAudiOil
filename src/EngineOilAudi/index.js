@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
     Footer,
 } from "./styled";
 
-// Обновленный массив данных с полями hp (мощность) и torque (момент)
+// Массив данных с полями hp (мощность) и torque (момент)
 const ENGINE_DATA = [
     { "engine": "CPNB", "ring": "87", "min": "0", "max": "12", "hp": "240 л.с.", "torque": "580 Нм" },
     { "engine": "CSUA", "ring": "10", "min": "0", "max": "18", "hp": "150 л.с.", "torque": "320 Нм" },
@@ -186,6 +186,29 @@ const ENGINE_DATA = [
 
 export default function OilDipstickLookup() {
     const [search, setSearch] = useState('');
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    // Слушатель прокрутки для кнопки "Наверх"
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowScrollTop(true);
+            } else {
+                setShowScrollTop(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Функция плавного скролла наверх
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
     // Фильтрация данных по коду ДВС
     const filteredData = useMemo(() => {
@@ -206,6 +229,8 @@ export default function OilDipstickLookup() {
             <div style={styles.searchWrapper}>
                 <input
                     type="text"
+                    inputMode="text"
+                    autoCapitalize="characters"
                     placeholder="Введите код двигателя (например, CAEB)..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -267,36 +292,53 @@ export default function OilDipstickLookup() {
                     </div>
                 )}
             </div>
+
             <Footer>
                 По всем вопросам и предложениям:
-                <a href="https://t.me/aaliaksei">@aaliaksei</a>
+                <a href="https://t.me/aaliaksei" target="_blank" rel="noreferrer">@aaliaksei</a>
             </Footer>
+
+            {/* Кнопка "Наверх" */}
+            <button
+                onClick={scrollToTop}
+                style={{
+                    ...styles.scrollTopButton,
+                    opacity: showScrollTop ? 1 : 0,
+                    pointerEvents: showScrollTop ? 'auto' : 'none',
+                    transform: showScrollTop ? 'translateY(0)' : 'translateY(10px)'
+                }}
+                aria-label="Наверх"
+            >
+                ↑
+            </button>
         </div>
     );
 }
 
-// Адаптивные стили, оптимизированные под мобильные устройства (Mobile-first layout)
+// Изменения и адаптивные Mobile-first стили
 const styles = {
     container: {
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
         backgroundColor: '#f4f6f9',
         color: '#333',
         minHeight: '100vh',
-        padding: '16px',
+        padding: '12px 12px 40px 12px', // Оптимизированы боковые отступы на смартфонах
         boxSizing: 'border-box',
+        position: 'relative',
     },
     header: {
-        marginBottom: '20px',
+        marginBottom: '16px',
         textAlign: 'center',
     },
     title: {
-        fontSize: '20px',
+        fontSize: '19px', // Чуть уменьшен для предотвращения переносов длинных слов на мелких экранах
         fontWeight: '700',
         color: '#1a1a1a',
         margin: '0 0 4px 0',
+        lineHeight: '1.2',
     },
     subtitle: {
-        fontSize: '13px',
+        fontSize: '12px',
         color: '#666',
         margin: 0,
     },
@@ -308,49 +350,51 @@ const styles = {
     },
     searchInput: {
         width: '100%',
-        padding: '14px 40px 14px 16px',
-        fontSize: '15px',
+        padding: '14px 44px 14px 16px', // Место под увеличенную тач-зону крестика
+        fontSize: '16px', // 16px предотвращает авто-зум страницы в iOS при фокусе
         borderRadius: '12px',
         border: '1px solid #dcdcdc',
         backgroundColor: '#fff',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
         outline: 'none',
+        boxSizing: 'border-box',
         transition: 'border-color 0.2s',
         WebkitAppearance: 'none',
     },
     clearButton: {
         position: 'absolute',
-        right: '12px',
+        right: '4px',
         background: 'none',
         border: 'none',
         fontSize: '16px',
         color: '#999',
         cursor: 'pointer',
-        padding: '4px',
+        padding: '12px', // Увеличена область нажатия (мин. 44x44px по гайдлайнам)
     },
     metaInfo: {
         fontSize: '12px',
         color: '#777',
-        marginBottom: '16px',
+        marginBottom: '12px',
         paddingLeft: '4px',
     },
     cardContainer: {
-        display: 'block',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
     },
     card: {
         backgroundColor: '#fff',
         borderRadius: '14px',
-        padding: '16px',
-        marginBottom: '12px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        padding: '14px', // Чуть компактнее на мобильных
+        boxShadow: '0 3px 10px rgba(0, 0, 0, 0.04)',
         border: '1px solid #edf0f4',
     },
     cardHeader: {
         display: 'flex',
-        flexDirection: 'column', // Элементы выстраиваются вертикально для экономии ширины на мобильных
+        flexDirection: 'column',
         borderBottom: '1px solid #f0f2f5',
         paddingBottom: '10px',
-        marginBottom: '12px',
+        marginBottom: '10px',
     },
     headerTitleRow: {
         display: 'flex',
@@ -365,33 +409,36 @@ const styles = {
         letterSpacing: '0.5px',
     },
     engineCode: {
-        fontSize: '20px',
+        fontSize: '22px', // Выделено крупнее
         fontWeight: '700',
         color: '#0052cc',
         letterSpacing: '0.5px',
     },
     specsWrapper: {
         display: 'flex',
+        flexWrap: 'wrap', // Безопасный перенос характеристик, если экран очень узкий
         gap: '6px',
-        marginTop: '6px', // Небольшой отступ под кодом двигателя
+        marginTop: '6px',
     },
     specBadge: {
-        fontSize: '12px',
+        fontSize: '11px',
         fontWeight: '500',
         backgroundColor: '#f0f4f8',
         color: '#475569',
         padding: '3px 8px',
         borderRadius: '6px',
         border: '1px solid #e2e8f0',
+        whiteSpace: 'nowrap',
     },
     cardBody: {
-        display: 'block',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
     },
     paramRow: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '12px',
         backgroundColor: '#f8fafc',
         padding: '10px 12px',
         borderRadius: '8px',
@@ -399,28 +446,26 @@ const styles = {
     paramLabel: {
         fontSize: '14px',
         color: '#4a5568',
-        flex: 1,
     },
     paramValueHighlight: {
         fontSize: '18px',
         fontWeight: '700',
         color: '#1a202c',
         backgroundColor: '#e2e8f0',
-        padding: '2px 10px',
+        padding: '4px 12px',
         borderRadius: '6px',
-        minWidth: '45px',
+        minWidth: '40px',
         textAlign: 'center',
     },
     limitsGrid: {
-        display: 'table',
+        display: 'flex', // Вместо табличной верстки используется Flexbox
+        gap: '10px',
         width: '100%',
-        tableLayout: 'fixed',
     },
     limitBox: {
-        display: 'table-cell',
-        width: '50%',
+        flex: 1, // Коробки делят пространство ровно 50/50
         textAlign: 'center',
-        padding: '8px',
+        padding: '8px 4px',
         backgroundColor: '#fff',
         border: '1px solid #edf2f7',
         borderRadius: '8px',
@@ -439,11 +484,33 @@ const styles = {
     },
     noResults: {
         textAlign: 'center',
-        padding: '40px 20px',
+        padding: '30px 16px',
         color: '#718096',
-        fontSize: '15px',
+        fontSize: '14px',
         backgroundColor: '#fff',
         borderRadius: '12px',
         border: '1px dashed #cbd5e0',
+    },
+    // Стили плавающей кнопки "Наверх"
+    scrollTopButton: {
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        width: '46px',
+        height: '46px',
+        borderRadius: '50%',
+        backgroundColor: '#0052cc',
+        color: '#fff',
+        border: 'none',
+        fontSize: '20px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        boxShadow: '0 4px 12px rgba(0, 82, 204, 0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'opacity 0.25s ease, transform 0.25s ease',
+        zIndex: 999,
+        WebkitTapHighlightColor: 'transparent', // Убирает синюю рамку при клике на iOS
     }
 };
