@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-    Footer,LogoWrapper,oilFlow,oilSplash
+    Footer,LogoWrapper
 } from "./styled";
 
 // Массив данных с полями hp (мощность) и torque (момент)
