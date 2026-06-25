@@ -1,29 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-export const Footer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	flex-direction: column;
-	color: #94a3b8;
-	font-size: 0.875rem;
-	margin-top: auto;
-	padding: 30px 0;
-	width: 100%;
-
-	a {
-		display: flex;
-		color: #6366f1; /* Ссылки теперь красивого фиолетового цвета */
-		text-decoration: none;
-		font-weight: 600;
-		transition: color 0.2s ease;
-
-		&:hover {
-			color: #4f46e5; /* Потемнение при наведении */
-			text-decoration: underline;
-		}
-	}
-`;
 
 // 1. Анимация вращения шкивов вправо (по часовой стрелке)
 const spinClockwise = keyframes`
@@ -54,7 +29,7 @@ export const LogoWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 140px; /* Оптимальный размер под заголовок h1 */
+    max-width: 140px;
     margin: 10px auto 15px auto;
     -webkit-tap-highlight-color: transparent;
 
@@ -68,13 +43,13 @@ export const LogoWrapper = styled.div`
         /* Все шкивы начинают синхронно вращаться в правую сторону */
         .pulley-spin, .pulley-spin-reverse {
             transform-origin: center;
-            transform-box: fill-box; /* Важно для точного центрования осей в SVG */
+            transform-box: fill-box;
             animation: ${spinClockwise} 2s linear infinite;
         }
-        
-        /* Натяжной ролик крутится в ту же сторону, но быстрее из-за меньшего диаметра */
+
+        /* Натяжной ролик крутится в ту же сторону, но быстрее */
         .pulley-spin-reverse {
-            animation-duration: 0.8s; 
+            animation-duration: 0.8s;
         }
 
         /* Цепь ГРМ бежит вправо вслед за шкивами */
@@ -84,7 +59,7 @@ export const LogoWrapper = styled.div`
 
         /* Каналы смазки загораются золотым цветом, имитируя давление масла */
         .oil-channel {
-            stroke: #fbbf24; /* Цвет чистого свежего масла */
+            stroke: #fbbf24;
             opacity: 1;
             animation: ${oilFlow} 0.8s linear infinite;
         }
@@ -95,6 +70,26 @@ export const LogoWrapper = styled.div`
             transform-origin: bottom center;
             transform-box: fill-box;
             animation: ${oilSplash} 0.6s ease-in-out infinite;
+        }
+    }
+`;
+
+export const Footer = styled.footer`
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 40px;
+
+    a {
+        color: #2563eb;
+        text-decoration: none;
+        margin-left: 5px;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
         }
     }
 `;
