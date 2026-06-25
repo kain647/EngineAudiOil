@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-    Footer,
+    Footer,LogoWrapper
 } from "./styled";
 
 // Массив данных с полями hp (мощность) и torque (момент)
@@ -223,6 +223,51 @@ export default function OilDipstickLookup() {
         <div style={styles.container}>
             <header style={styles.header}>
                 <h1 style={styles.title}>Значения сервисного щупа Audi</h1>
+                <LogoWrapper>
+                    <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+                        {/* Фоновые стилизованные стенки цилиндра V6 (V-образные направляющие) */}
+                        <path d="M 20 15 L 50 75 L 50 115" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="4 4" fill="none" />
+                        <path d="M 110 15 L 80 75 L 80 115" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="4 4" fill="none" />
+
+                        {/* Фирменные кольца Audi на заднем плане блока цилиндров */}
+                        <g opacity="0.15" stroke="#1e293b" strokeWidth="3" fill="none">
+                            <circle cx="47" cy="102" r="11" />
+                            <circle cx="59" cy="102" r="11" />
+                            <circle cx="71" cy="102" r="11" />
+                            <circle cx="83" cy="102" r="11" />
+                        </g>
+
+                        {/* ПОДВИЖНАЯ ЧАСТЬ 2: Шатун с пальцем (Piston Rod) */}
+                        <g className="piston-rod" transition="all 0.1s linear">
+                            {/* Тело шатуна */}
+                            <path d="M 61 50 L 56 100 A 12 12 0 0 0 74 100 L 69 50 Z" fill="#64748b" stroke="#475569" strokeWidth="1.5" />
+                            {/* Крышка шатуна (нижний вкладыш коленвала) */}
+                            <circle cx="65" cy="100" r="7" fill="#475569" />
+                            <circle cx="65" cy="100" r="4" fill="#f4f6f9" />
+                        </g>
+
+                        {/* ПОДВИЖНАЯ ЧАСТЬ 1: Головка поршня с компрессионными кольцами (Piston Head) */}
+                        <g className="piston-head" transition="all 0.1s linear">
+                            {/* Юбка и жаровой пояс поршня */}
+                            <path d="M 35 20 L 95 20 L 95 55 L 83 55 L 83 48 L 73 48 L 73 52 L 57 52 L 57 48 L 47 48 L 47 55 L 35 55 Z" fill="#94a3b8" stroke="#475569" strokeWidth="1.5" strokeLinejoin="round" />
+
+                            {/* Канавки под поршневые кольца (технологичные прорези по бокам) */}
+                            <path d="M 32 27 L 36 27 M 94 27 L 98 27" stroke="#334155" strokeWidth="2" />
+                            <path d="M 32 33 L 36 33 M 94 33 L 98 33" stroke="#334155" strokeWidth="2" />
+                            <path d="M 32 39 L 36 39 M 94 39 L 98 39" stroke="#334155" strokeWidth="2" />
+
+                            {/* Днище поршня (выемки под клапаны) */}
+                            <path d="M 43 20 Q 50 24 58 20 Q 72 24 87 20" fill="none" stroke="#475569" strokeWidth="1.5" />
+
+                            {/* Поршневой палец (внутри бобышки) */}
+                            <circle cx="65" cy="42" r="6" fill="#cbd5e1" stroke="#475569" strokeWidth="1.5" />
+                            <circle cx="65" cy="42" r="3" fill="#94a3b8" />
+                        </g>
+
+                        {/* Неподвижная центральная шпилька / ось коленчатого вала */}
+                        <circle cx="65" cy="100" r="2.5" fill="#334155" />
+                    </svg>
+                </LogoWrapper>
                 <p style={styles.subtitle}>Регулировка установочного кольца T40178</p>
             </header>
 
