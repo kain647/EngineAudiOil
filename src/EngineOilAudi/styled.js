@@ -25,20 +25,16 @@ export const Footer = styled.div`
 	}
 `;
 
-// Анимация хода поршня вверх-вниз
-const pistonMotion = keyframes`
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
-    100% { transform: translateY(0px); }
+// 1. Анимация вращения ВСЕХ шкивов вправо (по часовой стрелке)
+const spinClockwise = keyframes`
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 `;
 
-// Анимация качания шатуна (в противофазе поршню)
-const rodMotion = keyframes`
-    0% { transform: translateY(0px) rotate(0deg); }
-    25% { transform: translateY(-6px) rotate(4deg); }
-    50% { transform: translateY(-12px) rotate(0deg); }
-    75% { transform: translateY(-6px) rotate(-4deg); }
-    100% { transform: translateY(0px) rotate(0deg); }
+// 2. Анимация бегущей цепи/ремня вправо (по часовой стрелке за счет отрицательного смещения)
+const beltRun = keyframes`
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -40; } /* Минус запускает движение цепи вправо */
 `;
 
 export const LogoWrapper = styled.div`
@@ -46,7 +42,7 @@ export const LogoWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 130px; /* Идеальный размер под h1 */
+    max-width: 140px;
     margin: 10px auto 15px auto;
     -webkit-tap-highlight-color: transparent;
 
@@ -55,14 +51,23 @@ export const LogoWrapper = styled.div`
         height: auto;
     }
 
-    /* В обычном состоянии ДВС заглушен. При наведении или тапе — мотор заводится! */
+    /* Магия оживления при наведении мыши или тапе */
     &:hover, &:active {
-        .piston-head {
-            animation: ${pistonMotion} 0.25s linear infinite;
+        /* Теперь ВСЕ ролики (и большие, и маленькие) крутятся только вправо */
+        .pulley-spin, .pulley-spin-reverse {
+            transform-origin: center;
+            transform-box: fill-box; /* Гарантирует точную центровку шкивов в React */
+            animation: ${spinClockwise} 2s linear infinite;
         }
-        .piston-rod {
-            transform-origin: 65px 75px;
-            animation: ${rodMotion} 0.25s linear infinite;
+
+        /* Натяжной ролик крутится чуть быстрее, так как он меньше диаметром */
+        .pulley-spin-reverse {
+            animation-duration: 0.8s;
+        }
+
+        /* Цепь бежит вправо вслед за шкивами */
+        .belt-move {
+            animation: ${beltRun} 0.4s linear infinite;
         }
     }
 `;

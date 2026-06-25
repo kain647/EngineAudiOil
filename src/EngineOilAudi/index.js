@@ -224,48 +224,94 @@ export default function OilDipstickLookup() {
             <header style={styles.header}>
                 <h1 style={styles.title}>Значения сервисного щупа Audi</h1>
                 <LogoWrapper>
-                    <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-                        {/* Фоновые стилизованные стенки цилиндра V6 (V-образные направляющие) */}
-                        <path d="M 20 15 L 50 75 L 50 115" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="4 4" fill="none" />
-                        <path d="M 110 15 L 80 75 L 80 115" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="4 4" fill="none" />
+                    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                        {/* Контур развала блока цилиндров V6 на заднем плане */}
+                        <path d="M 20 40 L 45 85 L 95 85 L 120 40 L 100 25 L 70 55 L 40 25 Z" fill="#e2e8f0" stroke="#cbd5e1" strokeWidth="1.5" />
 
-                        {/* Фирменные кольца Audi на заднем плане блока цилиндров */}
-                        <g opacity="0.15" stroke="#1e293b" strokeWidth="3" fill="none">
-                            <circle cx="47" cy="102" r="11" />
-                            <circle cx="59" cy="102" r="11" />
-                            <circle cx="71" cy="102" r="11" />
-                            <circle cx="83" cy="102" r="11" />
+                        {/* Декоративные клапанные крышки левой и правой головы */}
+                        <path d="M 15 35 L 45 15 L 55 25 L 25 45 Z" fill="#94a3b8" />
+                        <path d="M 125 35 L 95 15 L 85 25 L 115 45 Z" fill="#94a3b8" />
+
+                        {/* Скрытая пасхалка: Кольца Audi внутри развала блока */}
+                        <g opacity="0.1" stroke="#000" strokeWidth="2" fill="none">
+                            <circle cx="58" cy="70" r="7" />
+                            <circle cx="66" cy="70" r="7" />
+                            <circle cx="74" cy="70" r="7" />
+                            <circle cx="82" cy="70" r="7" />
                         </g>
 
-                        {/* ПОДВИЖНАЯ ЧАСТЬ 2: Шатун с пальцем (Piston Rod) */}
-                        <g className="piston-rod" transition="all 0.1s linear">
-                            {/* Тело шатуна */}
-                            <path d="M 61 50 L 56 100 A 12 12 0 0 0 74 100 L 69 50 Z" fill="#64748b" stroke="#475569" strokeWidth="1.5" />
-                            {/* Крышка шатуна (нижний вкладыш коленвала) */}
-                            <circle cx="65" cy="100" r="7" fill="#475569" />
-                            <circle cx="65" cy="100" r="4" fill="#f4f6f9" />
+                        {/* ШКИВЫ (Каждому задан свой стиль трансформации transformBox для точного вращения в React) */}
+
+                        {/* 1. Левый распредвал */}
+                        <g className="pulley-spin" style={{ transformBox: 'fill-box' }}>
+                            <circle cx="35" cy="35" r="16" fill="#475569" stroke="#334155" strokeWidth="2" />
+                            <circle cx="35" cy="35" r="12" fill="none" stroke="#edf2f7" strokeWidth="1.5" strokeDasharray="4 4" />
+                            <circle cx="35" cy="35" r="3" fill="#cbd5e1" />
+                            {/* Облегченные спицы шкива, чтобы было видно вращение */}
+                            <line x1="35" y1="19" x2="35" y2="51" stroke="#334155" strokeWidth="2" />
+                            <line x1="19" y1="35" x2="51" y2="35" stroke="#334155" strokeWidth="2" />
                         </g>
 
-                        {/* ПОДВИЖНАЯ ЧАСТЬ 1: Головка поршня с компрессионными кольцами (Piston Head) */}
-                        <g className="piston-head" transition="all 0.1s linear">
-                            {/* Юбка и жаровой пояс поршня */}
-                            <path d="M 35 20 L 95 20 L 95 55 L 83 55 L 83 48 L 73 48 L 73 52 L 57 52 L 57 48 L 47 48 L 47 55 L 35 55 Z" fill="#94a3b8" stroke="#475569" strokeWidth="1.5" strokeLinejoin="round" />
-
-                            {/* Канавки под поршневые кольца (технологичные прорези по бокам) */}
-                            <path d="M 32 27 L 36 27 M 94 27 L 98 27" stroke="#334155" strokeWidth="2" />
-                            <path d="M 32 33 L 36 33 M 94 33 L 98 33" stroke="#334155" strokeWidth="2" />
-                            <path d="M 32 39 L 36 39 M 94 39 L 98 39" stroke="#334155" strokeWidth="2" />
-
-                            {/* Днище поршня (выемки под клапаны) */}
-                            <path d="M 43 20 Q 50 24 58 20 Q 72 24 87 20" fill="none" stroke="#475569" strokeWidth="1.5" />
-
-                            {/* Поршневой палец (внутри бобышки) */}
-                            <circle cx="65" cy="42" r="6" fill="#cbd5e1" stroke="#475569" strokeWidth="1.5" />
-                            <circle cx="65" cy="42" r="3" fill="#94a3b8" />
+                        {/* 2. Правый распредвал */}
+                        <g className="pulley-spin" style={{ transformBox: 'fill-box' }}>
+                            <circle cx="105" cy="35" r="16" fill="#475569" stroke="#334155" strokeWidth="2" />
+                            <circle cx="105" cy="35" r="12" fill="none" stroke="#edf2f7" strokeWidth="1.5" strokeDasharray="4 4" />
+                            <circle cx="105" cy="35" r="3" fill="#cbd5e1" />
+                            {/* Спицы шкива */}
+                            <line x1="105" y1="19" x2="105" y2="51" stroke="#334155" strokeWidth="2" />
+                            <line x1="89" y1="35" x2="121" y2="35" stroke="#334155" strokeWidth="2" />
                         </g>
 
-                        {/* Неподвижная центральная шпилька / ось коленчатого вала */}
-                        <circle cx="65" cy="100" r="2.5" fill="#334155" />
+                        {/* 3. Шкив коленвала (Большой, снизу) */}
+                        <g className="pulley-spin" style={{ transformBox: 'fill-box' }}>
+                            <circle cx="70" cy="100" r="20" fill="#334155" stroke="#1e293b" strokeWidth="2.5" />
+                            <circle cx="70" cy="100" r="15" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 4" />
+                            <circle cx="70" cy="100" r="5" fill="#edf2f7" stroke="#1e293b" strokeWidth="1" />
+                            {/* Метки ГРМ на шкиве */}
+                            <line x1="70" y1="80" x2="70" y2="120" stroke="#1e293b" strokeWidth="2" />
+                            <line x1="50" y1="100" x2="90" y2="100" stroke="#1e293b" strokeWidth="2" />
+                        </g>
+
+                        {/* 4. Натяжной ролик (Маленький, крутится в обратную сторону) */}
+                        <g className="pulley-spin-reverse" style={{ transformBox: 'fill-box' }}>
+                            <circle cx="88" cy="70" r="8" fill="#64748b" stroke="#475569" strokeWidth="1.5" />
+                            <circle cx="88" cy="70" r="2" fill="#cbd5e1" />
+                            <line x1="88" y1="62" x2="88" y2="78" stroke="#475569" strokeWidth="1.5" />
+                        </g>
+
+                        {/* РЕМЕНЬ ГРМ (Два слоя: подложка и бегущие зубья ремня) */}
+
+                        {/* Путь ремня, огибающий все шкивы и заходящий за натяжитель */}
+                        <path
+                            d="M 35 19
+               C 70 14, 70 14, 105 19
+               A 16 16 0 0 1 121 35
+               L 90 115
+               A 20 20 0 0 1 50 115
+               L 19 35
+               A 16 16 0 0 1 35 19 Z"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="5"
+                            strokeLinejoin="round"
+                        />
+
+                        {/* Бегущие зубья/текстура ремня (активируются через класс .belt-move) */}
+                        <path
+                            className="belt-move"
+                            d="M 35 19
+               C 70 14, 70 14, 105 19
+               A 16 16 0 0 1 121 35
+               L 90 115
+               A 20 20 0 0 1 50 115
+               L 19 35
+               A 16 16 0 0 1 35 19 Z"
+                            fill="none"
+                            stroke="#94a3b8"
+                            strokeWidth="2"
+                            strokeDasharray="4 4" /* Создает зубья ремня */
+                            strokeLinejoin="round"
+                        />
                     </svg>
                 </LogoWrapper>
                 <p style={styles.subtitle}>Регулировка установочного кольца T40178</p>
