@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-    Footer,LogoWrapper
+    Footer,LogoWrapper,oilFlow,oilSplash
 } from "./styled";
 
 // Массив данных с полями hp (мощность) и torque (момент)
@@ -225,29 +225,26 @@ export default function OilDipstickLookup() {
                 <h1 style={styles.title}>Значения сервисного щупа Audi</h1>
                 <LogoWrapper>
                     <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-                        {/* Контур развала блока цилиндров V6 на заднем плане */}
+                        {/* Контур блока цилиндров V6 */}
                         <path d="M 20 40 L 45 85 L 95 85 L 120 40 L 100 25 L 70 55 L 40 25 Z" fill="#e2e8f0" stroke="#cbd5e1" strokeWidth="1.5" />
 
-                        {/* Декоративные клапанные крышки левой и правой головы */}
-                        <path d="M 15 35 L 45 15 L 55 25 L 25 45 Z" fill="#94a3b8" />
-                        <path d="M 125 35 L 95 15 L 85 25 L 115 45 Z" fill="#94a3b8" />
+                        {/* Масляный поддон картера (снизу мотора) */}
+                        <path d="M 50 115 L 90 115 L 85 132 L 55 132 Z" fill="#475569" stroke="#334155" strokeWidth="1.5" />
 
-                        {/* Скрытая пасхалка: Кольца Audi внутри развала блока */}
-                        <g opacity="0.1" stroke="#000" strokeWidth="2" fill="none">
-                            <circle cx="58" cy="70" r="7" />
-                            <circle cx="66" cy="70" r="7" />
-                            <circle cx="74" cy="70" r="7" />
-                            <circle cx="82" cy="70" r="7" />
-                        </g>
+                        {/* Уровень свежего масла в поддоне (оживает при наведении) */}
+                        <path className="oil-level" d="M 53 122 Q 70 120 87 122 L 84 130 L 56 130 Z" fill="#b45309" opacity="0.8" />
 
-                        {/* ШКИВЫ (Каждому задан свой стиль трансформации transformBox для точного вращения в React) */}
+                        {/* МАСЛЯНЫЕ КАНАЛЫ (Магистрали смазки двигателя) */}
+                        {/* Левая и правая ветка от масляного насоса вверх к распредвалам */}
+                        <path className="oil-channel" d="M 65 100 L 45 85 L 35 45" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 6" strokeLinecap="round" opacity="0.4" />
+                        <path className="oil-channel" d="M 65 100 L 85 85 L 105 45" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 6" strokeLinecap="round" opacity="0.4" />
 
+                        {/* ШКИВЫ (Вращение строго вправо) */}
                         {/* 1. Левый распредвал */}
                         <g className="pulley-spin" style={{ transformBox: 'fill-box' }}>
                             <circle cx="35" cy="35" r="16" fill="#475569" stroke="#334155" strokeWidth="2" />
                             <circle cx="35" cy="35" r="12" fill="none" stroke="#edf2f7" strokeWidth="1.5" strokeDasharray="4 4" />
                             <circle cx="35" cy="35" r="3" fill="#cbd5e1" />
-                            {/* Облегченные спицы шкива, чтобы было видно вращение */}
                             <line x1="35" y1="19" x2="35" y2="51" stroke="#334155" strokeWidth="2" />
                             <line x1="19" y1="35" x2="51" y2="35" stroke="#334155" strokeWidth="2" />
                         </g>
@@ -257,60 +254,35 @@ export default function OilDipstickLookup() {
                             <circle cx="105" cy="35" r="16" fill="#475569" stroke="#334155" strokeWidth="2" />
                             <circle cx="105" cy="35" r="12" fill="none" stroke="#edf2f7" strokeWidth="1.5" strokeDasharray="4 4" />
                             <circle cx="105" cy="35" r="3" fill="#cbd5e1" />
-                            {/* Спицы шкива */}
                             <line x1="105" y1="19" x2="105" y2="51" stroke="#334155" strokeWidth="2" />
                             <line x1="89" y1="35" x2="121" y2="35" stroke="#334155" strokeWidth="2" />
                         </g>
 
-                        {/* 3. Шкив коленвала (Большой, снизу) */}
+                        {/* 3. Шкив коленвала / Масляный насос (Снизу) */}
                         <g className="pulley-spin" style={{ transformBox: 'fill-box' }}>
                             <circle cx="70" cy="100" r="20" fill="#334155" stroke="#1e293b" strokeWidth="2.5" />
                             <circle cx="70" cy="100" r="15" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 4" />
                             <circle cx="70" cy="100" r="5" fill="#edf2f7" stroke="#1e293b" strokeWidth="1" />
-                            {/* Метки ГРМ на шкиве */}
                             <line x1="70" y1="80" x2="70" y2="120" stroke="#1e293b" strokeWidth="2" />
                             <line x1="50" y1="100" x2="90" y2="100" stroke="#1e293b" strokeWidth="2" />
                         </g>
 
-                        {/* 4. Натяжной ролик (Маленький, крутится в обратную сторону) */}
+                        {/* 4. Натяжной ролик */}
                         <g className="pulley-spin-reverse" style={{ transformBox: 'fill-box' }}>
                             <circle cx="88" cy="70" r="8" fill="#64748b" stroke="#475569" strokeWidth="1.5" />
                             <circle cx="88" cy="70" r="2" fill="#cbd5e1" />
                             <line x1="88" y1="62" x2="88" y2="78" stroke="#475569" strokeWidth="1.5" />
                         </g>
 
-                        {/* РЕМЕНЬ ГРМ (Два слоя: подложка и бегущие зубья ремня) */}
-
-                        {/* Путь ремня, огибающий все шкивы и заходящий за натяжитель */}
+                        {/* ЦЕПЬ / РЕМЕНЬ ГРМ */}
                         <path
-                            d="M 35 19
-               C 70 14, 70 14, 105 19
-               A 16 16 0 0 1 121 35
-               L 90 115
-               A 20 20 0 0 1 50 115
-               L 19 35
-               A 16 16 0 0 1 35 19 Z"
-                            fill="none"
-                            stroke="#1e293b"
-                            strokeWidth="5"
-                            strokeLinejoin="round"
+                            d="M 35 19 C 70 14, 70 14, 105 19 A 16 16 0 0 1 121 35 L 90 115 A 20 20 0 0 1 50 115 L 19 35 A 16 16 0 0 1 35 19 Z"
+                            fill="none" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round"
                         />
-
-                        {/* Бегущие зубья/текстура ремня (активируются через класс .belt-move) */}
                         <path
                             className="belt-move"
-                            d="M 35 19
-               C 70 14, 70 14, 105 19
-               A 16 16 0 0 1 121 35
-               L 90 115
-               A 20 20 0 0 1 50 115
-               L 19 35
-               A 16 16 0 0 1 35 19 Z"
-                            fill="none"
-                            stroke="#94a3b8"
-                            strokeWidth="2"
-                            strokeDasharray="4 4" /* Создает зубья ремня */
-                            strokeLinejoin="round"
+                            d="M 35 19 C 70 14, 70 14, 105 19 A 16 16 0 0 1 121 35 L 90 115 A 20 20 0 0 1 50 115 L 19 35 A 16 16 0 0 1 35 19 Z"
+                            fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" strokeLinejoin="round"
                         />
                     </svg>
                 </LogoWrapper>
